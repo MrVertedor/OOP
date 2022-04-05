@@ -5,7 +5,7 @@ class Person:
     def __init__(self, name, dob):
         self.name = name
         self.dob = dob
-    
+        
     def age(self):
         #Get today's date object
         today = date.today()
@@ -19,7 +19,7 @@ class Person:
         return age
     
     def __repr__(self):
-        return f"Name: {self.name}, Date of birht: {self.dob}, Age: "
+        return f"Name: {self.name}, Date of birht: {self.dob}, Age: {self.age()}"
 
 #Create the Student (child class)
 class Student(Person):
