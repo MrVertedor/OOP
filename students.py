@@ -1,25 +1,42 @@
 from datetime import datetime,date
+#Create a custom DOB validaton error
+class DOBError(Exception):
+    pass
+
 #Create class Person
 class Person:
     #Instance attributes (for each object)
     def __init__(self, name, dob):
         self.name = name
         self.dob = dob
-        
+    
+    #Getter
+    @property
+    def dob(self):
+        return self._dob  
+    
+    #Setter
+    @dob.setter
+    def dob(self,dob):
+        try:
+            self._dob = datetime.strptime(dob, '%Y/%m/%d')
+        except Exception as e:
+            raise DOBError('Wrong date format. Please, use yyyy/mm/dd')
+    
     def age(self):
         #Get today's date object
         today = date.today()
-        #Convert DOB from string to a datetime object
-        birthdate = datetime.strptime(self.dob, '%Y/%m/%d')
         #Take into account leap years
-        one_or_zero = ((today.month, today.day) < (birthdate.month, birthdate.day))
+        one_or_zero = ((today.month, today.day) < (self.dob.month, self.dob.day))
         #Calculate the age
-        year_difference = today.year - birthdate.year
+        year_difference = today.year - self.dob.year
         age = year_difference - one_or_zero
         return age
     
     def __repr__(self):
-        return f"Name: {self.name}, Date of birht: {self.dob}, Age: {self.age()}"
+        #Format date as a string
+        dob = self.dob.strftime("%Y/%m/%d")
+        return f"Name: {self.name}, Date of birht: {dob}, Age: {self.age()}"
 
 #Create the Student (child class)
 class Student(Person):
